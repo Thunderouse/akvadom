@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>АкваДом — центр климатического комфорта в Сочи | Диагностика влажности, автополив, дренаж</title>
+<meta name="description" content="Приезжаем домой, находим причину сырости, луж во дворе и сбоев полива. Датчики протечек, автоматический полив, водоотведение, защита от дождевой воды. Диагностика 2 900 ₽.">
+<style>
+  :root{
+    --ink:#08211F;
+    --ink-2:#0E3A38;
+    --aqua:#1FB6A6;
+    --aqua-l:#5FE3D0;
+    --sand:#F5F1E8;
+    --paper:#FFFDF9;
+    --line:rgba(8,33,31,.12);
+    --muted:#5A6E6B;
+    --amber:#D89A2E;
+    --danger:#C0503A;
+    --r:18px;
+    --wrap:1180px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Manrope","Inter","Helvetica Neue",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    font-size:17px;
+    line-height:1.6;
+  }
+  h1,h2,h3,h4{margin:0;line-height:1.12;letter-spacing:-.02em;font-weight:700}
+  p{margin:0;text-wrap:pretty}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 28px}
+  .eyebrow{
+    font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    font-weight:700;color:var(--aqua);
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:16px 26px;border-radius:100px;font-weight:700;font-size:15px;
+    border:1px solid transparent;cursor:pointer;transition:.2s;white-space:nowrap;
+    font-family:inherit;
+  }
+  .btn-primary{background:var(--aqua);color:#04211F}
+  .btn-primary:hover{background:var(--aqua-l);transform:translateY(-1px)}
+  .btn-ghost{border-color:rgba(255,255,255,.35);color:#fff}
+  .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+  .btn-dark{background:var(--ink);color:#fff}
+  .btn-dark:hover{background:var(--ink-2)}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:60;
+    background:rgba(8,33,31,.86);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    color:#fff;transition:background .3s;
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:76px;gap:24px;
+    max-width:1240px;margin:0 auto;padding:0 28px}
+  .logo{display:flex;align-items:center;gap:11px;flex:none}
+  .logo svg{width:34px;height:34px;flex:none}
+  .logo-t{font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.15;display:block;white-space:nowrap}
+  .logo-s{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.55);
+    font-weight:600;display:block;white-space:nowrap}
+  nav.links{display:flex;gap:20px;font-size:14px;font-weight:500;color:rgba(255,255,255,.78)}
+  nav.links a{white-space:nowrap}
+  nav.links a:hover{color:#fff}
+  .nav-right{display:flex;align-items:center;gap:16px;flex:none}
+  .nav-phone{font-weight:700;font-size:14.5px;letter-spacing:-.01em;white-space:nowrap}
+  .nav .btn{padding:11px 18px;font-size:13.5px}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;overflow:hidden;color:#fff;
+    background:
+      radial-gradient(120% 90% at 82% 6%, rgba(31,182,166,.34) 0%, rgba(31,182,166,0) 55%),
+      radial-gradient(80% 70% at 8% 92%, rgba(95,227,208,.16) 0%, rgba(95,227,208,0) 60%),
+      linear-gradient(168deg,#08211F 0%,#0A2C2A 52%,#07211F 100%);
+    padding:78px 0 96px;
+  }
+  .hero:after{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1px);
+    background-size:26px 26px;
+    mask-image:linear-gradient(180deg,rgba(0,0,0,.9),transparent 70%);
+  }
+  .hero .wrap{position:relative;z-index:2}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+  .hero h1{font-size:58px;letter-spacing:-.035em;margin:20px 0 22px}
+  .hero h1 em{font-style:normal;color:var(--aqua-l)}
+  .hero p.lead{font-size:19px;line-height:1.62;color:rgba(255,255,255,.78);max-width:540px}
+  .hero-cta{display:flex;gap:14px;margin:34px 0 30px;flex-wrap:wrap}
+  .chips{display:flex;gap:26px;flex-wrap:wrap;font-size:13.5px;color:rgba(255,255,255,.7)}
+  .chips span{display:flex;align-items:center;gap:8px}
+  .chips i{width:6px;height:6px;border-radius:50%;background:var(--aqua);display:block}
+
+  /* passport card */
+  .passport{
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:22px;padding:26px 26px 20px;
+    backdrop-filter:blur(6px);
+    box-shadow:0 30px 70px -30px rgba(0,0,0,.7);
+  }
+  .pp-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+  .pp-head b{font-size:15px;letter-spacing:-.01em}
+  .pp-head span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:700}
+  .pp-sub{font-size:12.5px;color:rgba(255,255,255,.45);margin-bottom:18px}
+  .pp-row{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:14px 0;border-top:1px solid rgba(255,255,255,.09)}
+  .pp-row .k{font-size:14px;color:rgba(255,255,255,.82)}
+  .pp-row .k small{display:block;font-size:11.5px;color:rgba(255,255,255,.42);margin-top:3px}
+  .bar{width:210px}
+  .bar .track{height:6px;border-radius:100px;background:rgba(255,255,255,.13);overflow:hidden}
+  .bar .fill{height:100%;border-radius:100px;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+  .bar .val{font-size:12.5px;font-weight:700;display:flex;justify-content:space-between;margin-bottom:6px}
+  .ok{color:var(--aqua-l)}.bad{color:#FF9E7A}
+  .pp-verdict{
+    margin-top:18px;padding:14px 16px;border-radius:12px;
+    background:rgba(192,80,58,.16);border:1px solid rgba(255,158,122,.3);
+    font-size:13px;color:#FFD9CB;line-height:1.5;
+  }
+  .pp-verdict b{color:#fff}
+
+  /* ---------- generic section ---------- */
+  section.pad{padding:96px 0}
+  .sec-head{max-width:720px;margin-bottom:48px}
+  .sec-head h2{font-size:42px;margin:14px 0 18px}
+  .sec-head p{color:var(--muted);font-size:17.5px}
+
+  .sym{background:var(--sand)}
+  .sym-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .sym-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+    padding:26px 24px;transition:.25s;position:relative;
+  }
+  .sym-card:hover{transform:translateY(-3px);box-shadow:0 20px 40px -26px rgba(8,33,31,.4)}
+  .sym-card .q{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;gap:10px;align-items:flex-start}
+  .sym-card .q svg{flex:none;margin-top:1px;opacity:.8}
+  .sym-card p{font-size:14.5px;color:var(--muted);line-height:1.6}
+  .sym-card.wide{grid-column:span 3;display:flex;justify-content:space-between;align-items:center;gap:30px;background:var(--ink);color:#fff;border-color:transparent}
+  .sym-card.wide p{color:rgba(255,255,255,.72);font-size:15.5px;max-width:640px}
+  .sym-card.wide b{font-size:20px;letter-spacing:-.02em;display:block;margin-bottom:8px}
+
+  /* diagnostics */
+  .diag{display:grid;grid-template-columns:.95fr 1.05fr;gap:64px;align-items:start}
+  .diag-list{list-style:none;padding:0;margin:0;counter-reset:d}
+  .diag-list li{
+    counter-increment:d;position:relative;padding:0 0 22px 46px;
+    border-left:1px solid var(--line);margin-left:11px;
+  }
+  .diag-list li:last-child{border-color:transparent;padding-bottom:0}
+  .diag-list li:before{
+    content:counter(d);position:absolute;left:-12px;top:-2px;
+    width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;
+    font-size:11.5px;font-weight:700;display:grid;place-items:center;
+  }
+  .diag-list b{display:block;font-size:16.5px;margin-bottom:4px}
+  .diag-list p{font-size:14.5px;color:var(--muted)}
+  .diag-card{background:var(--sand);border-radius:22px;padding:34px}
+  .diag-card h3{font-size:24px;margin-bottom:8px}
+  .diag-card .sub{font-size:14px;color:var(--muted);margin-bottom:22px}
+  .diag-facts{display:grid;gap:0}
+  .fact{display:flex;justify-content:space-between;gap:16px;padding:15px 0;border-top:1px solid var(--line);font-size:14.5px}
+  .fact span{color:var(--muted)}
+  .fact b{text-align:right;white-space:nowrap}
+  .diag-card .btn{width:100%;justify-content:center;margin-top:24px}
+  .fine{font-size:12px;color:var(--muted);margin-top:12px;text-align:center}
+
+  /* solutions */
+  .sol-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .sol{
+    border:1px solid var(--line);border-radius:22px;padding:32px;background:#fff;
+    position:relative;overflow:hidden;transition:.25s;
+  }
+  .sol:hover{border-color:rgba(31,182,166,.5);box-shadow:0 24px 50px -34px rgba(8,33,31,.45)}
+  .sol .ic{
+    width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
+    background:rgba(31,182,166,.11);color:var(--aqua);margin-bottom:20px;
+  }
+  .sol .ic svg{width:26px;height:26px}
+  .sol h3{font-size:22px;margin-bottom:10px}
+  .sol p{font-size:14.5px;color:var(--muted)}
+  .sol .res{
+    margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);
+    font-size:14px;display:flex;gap:9px;align-items:flex-start;color:var(--ink);
+  }
+  .sol .res svg{flex:none;margin-top:3px;color:var(--aqua)}
+  .sol .num{position:absolute;right:26px;top:26px;font-size:13px;font-weight:700;color:rgba(8,33,31,.18)}
+
+  /* calc */
+  .calc{background:var(--ink);color:#fff;border-radius:26px;padding:52px;display:grid;grid-template-columns:1fr 1fr;gap:56px}
+  .calc h2{font-size:34px;margin-bottom:14px}
+  .calc p.intro{font-size:15px;color:rgba(255,255,255,.65);max-width:420px}
+  .calc .cta{margin-top:26px}
+  .calc-form{display:grid;gap:14px}
+  .seg{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .seg label{
+    padding:10px 16px;border-radius:100px;border:1px solid rgba(255,255,255,.22);
+    font-size:13.5px;cursor:pointer;transition:.2s;user-select:none;
+  }
+  .seg input{position:absolute;opacity:0;pointer-events:none}
+  .seg input:checked + span{color:#04211F}
+  .seg label:has(input:checked){background:var(--aqua-l);border-color:var(--aqua-l);font-weight:700}
+  .calc-label{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:700}
+  .opts{display:grid;gap:9px;margin-top:10px}
+  .opt{display:flex;align-items:center;gap:12px;font-size:14.5px;color:rgba(255,255,255,.86);cursor:pointer}
+  .opt input{width:18px;height:18px;accent-color:var(--aqua);flex:none}
+  .opt small{margin-left:auto;color:rgba(255,255,255,.42);font-size:12.5px;white-space:nowrap}
+  .total{
+    margin-top:16px;padding:20px 22px;border-radius:14px;background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;align-items:center;gap:16px;
+  }
+  .total span{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:700}
+  .total b{font-size:24px;letter-spacing:-.02em;color:var(--aqua-l)}
+
+  /* prices */
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .price{border:1px solid var(--line);border-radius:22px;padding:32px 28px;background:#fff;display:flex;flex-direction:column;position:relative}
+  .price .tag{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--aqua);margin-bottom:14px}
+  .price h3{font-size:21px;margin-bottom:10px}
+  .price .amount{font-size:34px;font-weight:800;letter-spacing:-.03em;margin:12px 0 4px}
+  .price .amount small{font-size:14px;font-weight:600;color:var(--muted);letter-spacing:0}
+  .price .note{font-size:13px;color:var(--muted);margin-bottom:20px}
+  .price ul{list-style:none;padding:0;margin:0 0 26px;display:grid;gap:11px;font-size:14px}
+  .price li{display:flex;gap:9px;align-items:flex-start;color:var(--ink)}
+  .price li svg{flex:none;margin-top:4px;color:var(--aqua)}
+  .price .btn{margin-top:auto;justify-content:center}
+  .price.featured{border-color:var(--ink);box-shadow:0 30px 60px -40px rgba(8,33,31,.6)}
+  .price.featured:before{
+    content:"чаще всего заказывают";position:absolute;top:-12px;left:28px;
+    background:var(--ink);color:#fff;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;font-weight:700;padding:6px 12px;border-radius:100px;
+  }
+  .service-note{
+    margin-top:22px;padding:20px 24px;border-radius:16px;background:var(--sand);
+    display:flex;justify-content:space-between;align-items:center;gap:24px;font-size:14.5px;
+  }
+  .service-note b{font-size:15px}
+
+  /* cases */
+  .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .case{background:var(--sand);border-radius:20px;padding:28px}
+  .case .where{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:14px}
+  .case .was{font-size:14px;color:var(--muted);margin-bottom:16px}
+  .case .did{font-size:14.5px;margin-bottom:16px}
+  .case .now{font-size:13.5px;font-weight:700;display:flex;gap:8px;align-items:flex-start;color:var(--ink)}
+  .case .now svg{flex:none;margin-top:3px;color:var(--aqua)}
+  .case .num{font-size:44px;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:4px;color:var(--aqua)}
+
+  /* steps */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
+  .step{padding:30px 26px 0;border-right:1px solid var(--line)}
+  .step:last-child{border-right:0}
+  .step .n{font-size:12px;font-weight:800;color:var(--aqua);letter-spacing:.1em;margin-bottom:14px}
+  .step h4{font-size:17px;margin-bottom:8px}
+  .step p{font-size:13.5px;color:var(--muted)}
+  .step .when{font-size:12px;color:var(--muted);margin-top:10px;font-weight:600;opacity:.8}
+
+  /* reviews */
+  .rev-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .rev{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px}
+  .rev p{font-size:16px;line-height:1.62;margin-bottom:18px}
+  .rev .who{font-size:13.5px;color:var(--muted);display:flex;align-items:center;gap:10px}
+  .rev .ava{width:34px;height:34px;border-radius:50%;background:rgba(31,182,166,.16);display:grid;place-items:center;font-weight:800;font-size:13px;color:var(--aqua)}
+
+  /* faq */
+  .faq{max-width:840px}
+  details{border-bottom:1px solid var(--line);padding:20px 0}
+  details summary{
+    cursor:pointer;font-size:17px;font-weight:700;list-style:none;display:flex;
+    justify-content:space-between;gap:20px;align-items:flex-start;letter-spacing:-.01em;
+  }
+  details summary::-webkit-details-marker{display:none}
+  details summary:after{
+    content:"+";font-size:24px;font-weight:400;color:var(--aqua);line-height:1;
+    transition:transform .2s;
+  }
+  details[open] summary:after{transform:rotate(45deg)}
+  details p{margin-top:12px;font-size:15px;color:var(--muted);max-width:700px}
+
+  /* form */
+  .form-sec{
+    background:linear-gradient(160deg,#08211F,#0C3330);color:#fff;border-radius:26px;
+    padding:56px;display:grid;grid-template-columns:1fr 1fr;gap:56px;
+  }
+  .form-sec h2{font-size:36px;margin-bottom:16px}
+  .form-sec p.sub{font-size:15.5px;color:rgba(255,255,255,.68);max-width:420px}
+  .form-sec .contact-lines{margin-top:32px;display:grid;gap:14px;font-size:14.5px;color:rgba(255,255,255,.8)}
+  .form-sec .contact-lines div{display:flex;gap:12px;align-items:center}
+  .form-sec .contact-lines svg{color:var(--aqua-l);flex:none}
+  form{display:grid;gap:12px}
+  .field label{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:700;display:block;margin-bottom:7px}
+  .field input,.field select,.field textarea{
+    width:100%;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.06);color:#fff;font-size:15px;font-family:inherit;outline:none;transition:.2s;
+  }
+  .field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.32)}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--aqua);background:rgba(255,255,255,.1)}
+  .field select option{color:#08211F}
+  .consent{display:flex;gap:10px;align-items:flex-start;font-size:12px;color:rgba(255,255,255,.55);line-height:1.5}
+  .consent input{width:16px;height:16px;margin-top:2px;accent-color:var(--aqua);flex:none}
+  form .btn{justify-content:center;margin-top:4px}
+  .err{color:#FF9E7A;font-size:12.5px;min-height:16px}
+  .ok-msg{
+    display:none;padding:28px;border-radius:16px;background:rgba(31,182,166,.14);
+    border:1px solid rgba(95,227,208,.35);
+  }
+  .ok-msg b{display:block;font-size:20px;margin-bottom:8px}
+  .ok-msg p{font-size:14.5px;color:rgba(255,255,255,.75)}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .rv.in{opacity:1;transform:none}
+
+  /* footer */
+  footer{background:#061917;color:rgba(255,255,255,.6);padding:56px 0 34px;font-size:13.5px}
+  .foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .foot-top b{color:#fff;font-size:15px;display:block;margin-bottom:10px}
+  .foot-top a:hover{color:#fff}
+  .foot-top ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+  .foot-bot{display:flex;justify-content:space-between;gap:24px;padding-top:24px;font-size:12px;color:rgba(255,255,255,.38);flex-wrap:wrap}
+
+  @media (max-width:1000px){
+    .hero-grid,.diag,.calc,.form-sec{grid-template-columns:1fr;gap:40px}
+    .hero h1{font-size:42px}
+    .sym-grid,.sol-grid,.price-grid,.cases,.steps,.rev-grid{grid-template-columns:1fr 1fr}
+    .sym-card.wide{grid-column:span 2}
+    .step{border-right:0;border-bottom:1px solid var(--line);padding-bottom:24px}
+    .foot-top{grid-template-columns:1fr 1fr}
+    nav.links{display:none}
+  }
+  @media (max-width:560px){
+    .nav{padding:0 16px;gap:10px;height:64px}
+    .nav .btn{padding:9px 13px;font-size:12px;letter-spacing:-.01em}
+    .logo{gap:8px}
+    .logo svg{width:28px;height:28px}
+    .logo-t{font-size:16.5px}
+    .logo-s{font-size:8px;letter-spacing:.06em}
+    .passport{padding:20px 18px 16px;border-radius:18px}
+    .bar{width:min(168px,44vw)}
+    .k{font-size:13px}
+    .sol,.price{padding:24px 20px}
+    .rev,.case{padding:22px 20px}
+    .case .num{font-size:36px}
+    .total{flex-direction:column;align-items:flex-start;gap:6px}
+    .service-note{flex-direction:column;align-items:flex-start}
+  }
+  @media (max-width:680px){
+    .hero h1{font-size:34px}
+    .sec-head h2,.form-sec h2,.calc h2{font-size:28px}
+    .sym-grid,.sol-grid,.price-grid,.cases,.rev-grid,.steps{grid-template-columns:1fr}
+    .sym-card.wide{grid-column:span 1;flex-direction:column;align-items:flex-start}
+    .calc,.form-sec{padding:30px 22px}
+    .nav-phone{display:none}
+    section.pad{padding:64px 0}
+    .foot-top{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="logo" href="#top">
+      <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 3.5c5.6 7.2 11.5 13.1 11.5 20.1A11.5 11.5 0 0 1 20 35.3a11.5 11.5 0 0 1-11.5-11.5C8.5 16.6 14.4 10.7 20 3.5Z" fill="#1FB6A6" fill-opacity=".18" stroke="#5FE3D0" stroke-width="1.6"/>
+        <path d="M13 25.5 20 19l7 6.5M13 30.5 20 24l7 6.5" stroke="#5FE3D0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
+      </svg>
+      <span>
+        <span class="logo-t">АкваДом</span>
+        <span class="logo-s">климатический комфорт</span>
+      </span>
+    </a>
+    <nav class="links">
+      <a href="#symptoms">Проблемы</a>
+      <a href="#diag">Диагностика</a>
+      <a href="#solutions">Решения</a>
+      <a href="#prices">Стоимость</a>
+      <a href="#how">Этапы</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <div class="nav-right">
+      <a class="nav-phone" href="tel:+79891690711">+7 989 169-07-11</a>
+      <a class="btn btn-primary" href="#order">Вызвать специалиста</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow" style="color:#5FE3D0">Новое направление ООО «АкваТерра Сочи»</div>
+      <h1>Дом без сырости,<br>двор <em>без луж</em></h1>
+      <p class="lead">Десять лет мы проектируем системы водоотведения и полива для города. Теперь приезжаем к вам домой: измеряем влажность, находим причину сырости, скопления воды во дворе и сбоев полива — и предлагаем решение с ценой, а не «надо бы проверить».</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#order">Записаться на диагностику</a>
+        <a class="btn btn-ghost" href="#diag">Что входит в выезд</a>
+      </div>
+      <div class="chips">
+        <span><i></i>Выезд в течение 1–2 дней</span>
+        <span><i></i>Отчёт с замерами сразу на руки</span>
+        <span><i></i>Квартиры, дома, дачи</span>
+      </div>
+    </div>
+
+    <aside class="passport" aria-label="Пример паспорта микроклимата">
+      <div class="pp-head">
+        <b>Паспорт микроклимата</b>
+        <span>пример отчёта</span>
+      </div>
+      <div class="pp-sub">Дом 128 м², Адлер · 6 точек замера</div>
+
+      <div class="pp-row">
+        <div class="k">Влажность в спальне<small>норма 40–60%</small></div>
+        <div class="bar">
+          <div class="val"><span class="bad">71%</span><span style="color:rgba(255,255,255,.35)">+11</span></div>
+          <div class="track"><div class="fill" data-w="71" style="width:0;background:linear-gradient(90deg,#D89A2E,#FF9E7A)"></div></div>
+        </div>
+      </div>
+      <div class="pp-row">
+        <div class="k">Влажность у пола 1-го этажа<small>признак подсоса из грунта</small></div>
+        <div class="bar">
+          <div class="val"><span class="bad">88%</span><span style="color:rgba(255,255,255,.35)">+28</span></div>
+          <div class="track"><div class="fill" data-w="88" style="width:0;background:linear-gradient(90deg,#D89A2E,#C0503A)"></div></div>
+        </div>
+      </div>
+      <div class="pp-row">
+        <div class="k">Температура точки росы<small>на поверхности оконного откоса</small></div>
+        <div class="bar">
+          <div class="val"><span class="ok">14,2 °C</span><span style="color:rgba(255,255,255,.35)">норма</span></div>
+          <div class="track"><div class="fill" data-w="34" style="width:0;background:#5FE3D0"></div></div>
+        </div>
+      </div>
+      <div class="pp-row">
+        <div class="k">Вода во дворе после дождя<small>уклон от дома 0,4% вместо 1,5%</small></div>
+        <div class="bar">
+          <div class="val"><span class="bad">3 см</span><span style="color:rgba(255,255,255,.35)">сутки</span></div>
+          <div class="track"><div class="fill" data-w="64" style="width:0;background:linear-gradient(90deg,#D89A2E,#FF9E7A)"></div></div>
+        </div>
+      </div>
+
+      <div class="pp-verdict">
+        <b>Вывод:</b> конденсат вызван не «плохими окнами», а недостаточным притоком воздуха и обратным уклоном отмостки. Предложено два варианта решения — от 34 000 ₽.
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- SYMPTOMS -->
+<section class="pad sym" id="symptoms">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">С чем к нам приходят</div>
+      <h2>Пять ситуаций, в которых дом перестаёт быть комфортным</h2>
+      <p>Мы не продаём «комплекс работ». Мы начинаем с вопроса: что именно у вас происходит и в какие дни.</p>
+    </div>
+    <div class="sym-grid">
+      <div class="sym-card rv">
+        <div class="q"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C0503A" stroke-width="1.8"><path d="M12 3v18M5 8l7-5 7 5"/><path d="M4 21h16"/></svg>«Окна плачут» по утрам</div>
+        <p>Конденсат на стёклах, мокрые откосы, чёрные точки в углах. Обычно это не про стеклопакет, а про воздухообмен и точку росы.</p>
+      </div>
+      <div class="sym-card rv">
+        <div class="q"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C0503A" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>Плесень возвращается каждый сезон</div>
+        <p>Протёрли, покрасили — через месяц снова. Пока влага в конструкции остаётся, любое покрытие держится один сезон.</p>
+      </div>
+      <div class="sym-card rv">
+        <div class="q"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C0503A" stroke-width="1.8"><path d="M2 16c2.5 0 2.5-3 5-3s2.5 3 5 3 2.5-3 5-3 2.5 3 5 3"/><path d="M2 21c2.5 0 2.5-3 5-3s2.5 3 5 3 2.5-3 5-3 2.5 3 5 3"/><path d="M12 3v7"/></svg>Двор превращается в болото</div>
+        <p>После дождя вода стоит сутками, подтапливает отмостку и подвал. Причина — уклон, отсутствие ливнёвки или заилившийся дренаж.</p>
+      </div>
+      <div class="sym-card rv">
+        <div class="q"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C0503A" stroke-width="1.8"><path d="M12 21c4 0 7-2.7 7-6 0-4-3.5-7.5-7-12-3.5 4.5-7 8-7 12 0 3.3 3 6 7 6Z"/></svg>Полив работает «вслепую»</div>
+        <p>Газон то залит, то сухой, счёт за воду растёт, а уехать на две недели страшно: контроллер без погодного датчика льёт и в дождь.</p>
+      </div>
+      <div class="sym-card rv">
+        <div class="q"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C0503A" stroke-width="1.8"><path d="M4 7h16v13H4z"/><path d="M8 3v4M16 3v4"/><path d="M9 13h6"/></svg>Страшно уезжать из дома</div>
+        <p>Стиральная машина, бойлер, стояк, посудомойка. Одна протечка без присмотра — это ремонт у соседей и замена пола.</p>
+      </div>
+      <div class="sym-card rv">
+        <div class="q"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C0503A" stroke-width="1.8"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg>Дом «не дышит»</div>
+        <p>Душно, тяжёлый воздух, к вечеру болит голова. Вентиляция не справляется, а открытое окно зимой даёт обратный эффект.</p>
+      </div>
+      <div class="sym-card wide rv">
+        <div>
+          <b>У каждой из этих проблем есть измеримая причина</b>
+          <p>Влажность, точка росы, уклон, давление в системе полива, тяга в канале. Мы не гадаем по фотографиям — приезжаем с приборами и показываем цифры.</p>
+        </div>
+        <a class="btn btn-primary" href="#order">Проверить мой дом</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIAGNOSTICS -->
+<section class="pad" id="diag">
+  <div class="wrap diag">
+    <div class="rv">
+      <div class="eyebrow">Диагностика</div>
+      <h2 style="font-size:40px;margin:14px 0 18px">90 минут, чтобы понять, что происходит с домом</h2>
+      <p style="color:var(--muted);margin-bottom:34px">Работает один инженер. Приезжает в удобное время, включая субботу, с приборами и планшетом. Ничего не разбирает и не сверлит — только измерения и осмотр.</p>
+      <ol class="diag-list">
+        <li><b>Замеры влажности в 4–6 точках</b><p>Воздух и поверхности: спальня, санузел, кухня, наружные углы, пол первого этажа. Гигрометр + тепловизор.</p></li>
+        <li><b>Поиск мостиков холода</b><p>Тепловизор показывает, где стена холоднее нормы, — именно там выпадает конденсат и растёт плесень.</p></li>
+        <li><b>Проверка вентиляции и притока</b><p>Тяга в каналах анемометром, наличие приточных клапанов, состояние вытяжки в санузле и на кухне.</p></li>
+        <li><b>Обследование участка</b><p>Уклоны, точки сбора воды, состояние ливнёвки и дренажа, отмостка, водосток с крыши, подтопление подвала.</p></li>
+        <li><b>Проверка системы полива</b><p>Давление, равномерность, засоры, состояние контроллера, электромагнитных клапанов и зон.</p></li>
+        <li><b>Ревизия узлов воды в доме</b><p>Стояки, бойлер, стиральная и посудомоечная машины, фильтры: где реальный риск протечки.</p></li>
+      </ol>
+    </div>
+    <div class="diag-card rv">
+      <h3>Что вы получаете</h3>
+      <p class="sub">Отчёт 8–12 страниц, а не голосовое сообщение «вроде вентиляция».</p>
+      <div class="diag-facts">
+        <div class="fact"><span>Результаты замеров с нормами</span><b>таблицей</b></div>
+        <div class="fact"><span>Фото и термограммы проблемных зон</span><b>с подписями</b></div>
+        <div class="fact"><span>Причина, а не только симптом</span><b>формулировка</b></div>
+        <div class="fact"><span>2–3 варианта решения</span><b>с ценой</b></div>
+        <div class="fact"><span>План первоочерёдных работ</span><b>по приоритету</b></div>
+        <div class="fact"><span>Время на объекте</span><b>60–90 минут</b></div>
+        <div class="fact"><span>Стоимость выезда</span><b style="color:var(--aqua)">2 900 ₽</b></div>
+      </div>
+      <a class="btn btn-dark" href="#order">Записаться на выезд</a>
+      <p class="fine">Если заказываете работы — стоимость диагностики входит в смету</p>
+    </div>
+  </div>
+</section>
+
+<!-- CALC -->
+<section style="padding:0 0 96px">
+  <div class="wrap">
+    <div class="calc rv">
+      <div>
+        <div class="eyebrow" style="color:#5FE3D0">Ориентир по бюджету</div>
+        <h2 style="margin-top:14px">Прикиньте стоимость за минуту</h2>
+        <p class="intro">Отметьте, что беспокоит, — покажем реальный диапазон по нашим прошлым объектам. Точная смета появляется после диагностики и не меняется в процессе монтажа.</p>
+        <div class="cta"><a class="btn btn-primary" href="#order">Зафиксировать цену на выезде</a></div>
+      </div>
+      <div>
+        <div class="calc-form">
+          <div>
+            <div class="calc-label">Тип объекта</div>
+            <div class="seg">
+              <label><input type="radio" name="obj" value="1" checked><span>Квартира</span></label>
+              <label><input type="radio" name="obj" value="1.35"><span>Дом</span></label>
+              <label><input type="radio" name="obj" value="1.15"><span>Дача</span></label>
+            </div>
+          </div>
+          <div>
+            <div class="calc-label">Что нужно сделать</div>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" data-min="9000" data-max="22000" checked>Сырость и влажность в доме<small>9–22 тыс.</small></label>
+              <label class="opt"><input type="checkbox" data-min="10000" data-max="28000" checked>Защита от протечек<small>10–28 тыс.</small></label>
+              <label class="opt"><input type="checkbox" data-min="50000" data-max="130000">Автоматический полив<small>50–130 тыс.</small></label>
+              <label class="opt"><input type="checkbox" data-min="32000" data-max="130000">Водоотведение участка<small>32–130 тыс.</small></label>
+              <label class="opt"><input type="checkbox" data-min="28000" data-max="80000">Сбор дождевой воды<small>28–80 тыс.</small></label>
+            </div>
+          </div>
+          <div class="total">
+            <span>Примерный бюджет</span>
+            <b id="calc-total">26 000 – 60 000 ₽</b>
+          </div>
+          <p style="font-size:11.5px;color:rgba(255,255,255,.42);line-height:1.5">Расчёт ориентировочный: итоговая смета зависит от площади, состояния коммуникаций и объёма земляных работ.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTIONS -->
+<section class="pad" id="solutions" style="background:var(--sand)">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Решения</div>
+      <h2>Четыре системы, которые убирают причину, а не след</h2>
+      <p>Можно взять одну — например, только датчики протечек. Можно обустроить участок целиком. Мы предложим минимум, который реально решает вашу задачу.</p>
+    </div>
+    <div class="sol-grid">
+      <div class="sol rv">
+        <div class="num">01</div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3c3 3.6 6 6.6 6 10a6 6 0 0 1-12 0c0-3.4 3-6.4 6-10Z"/><path d="M9 14.5a3 3 0 0 0 3 3"/></svg></div>
+        <h3>Датчики протечек и защита от затопления</h3>
+        <p>Датчики у стиральной машины, бойлера, под мойкой и в санузле. При контакте с водой электропривод перекрывает кран и присылает уведомление в приложение — за 3–5 секунд, без вашего участия.</p>
+        <div class="res"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 12l5 5L20 6"/></svg><span>Потоп с ремонтом у соседей превращается в push-уведомление.</span></div>
+      </div>
+      <div class="sol rv">
+        <div class="num">02</div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 10h18"/><path d="M6 10V7a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v3"/><path d="M7 10v4M12 10v7M17 10v4"/><path d="M3 17h18"/></svg></div>
+        <h3>Автоматический полив</h3>
+        <p>Проект зон, капельные линии и веерные дождеватели, контроллер с датчиком дождя и влажности почвы. Полив идёт по расписанию и корректируется по погоде, а не «когда вспомнили».</p>
+        <div class="res"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 12l5 5L20 6"/></svg><span>Расход воды ниже на 30–40%, газон без проплешин, отпуск без поливальщика.</span></div>
+      </div>
+      <div class="sol rv">
+        <div class="num">03</div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 6h18"/><path d="M6 6v9a3 3 0 0 0 3 3h1"/><path d="M18 6v9a3 3 0 0 1-3 3h-2"/><path d="M9 21h6"/></svg></div>
+        <h3>Водоотведение и дренаж</h3>
+        <p>Поверхностный водоотвод, точечные дождеприёмники, дренаж вдоль фундамента, отвод воды от септика и с кровли. Работаем с уклоном участка, а не против него.</p>
+        <div class="res"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 12l5 5L20 6"/></svg><span>Сухой участок после ливня, сухой подвал, фундамент без подтопления.</span></div>
+      </div>
+      <div class="sol rv">
+        <div class="num">04</div>
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/><path d="M2 20h20"/></svg></div>
+        <h3>Защита от дождевой воды</h3>
+        <p>Организованный водосток с крыши, отсечка обратного тока, накопительная ёмкость 1–3 м³ с фильтром и насосом: дождь становится водой для полива.</p>
+        <div class="res"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 12l5 5L20 6"/></svg><span>Меньше воды у фундамента — и до 40% полива за счёт собранной с крыши.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICES -->
+<section class="pad" id="prices">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Стоимость</div>
+      <h2>Платите за этап, а не за «пакет целиком»</h2>
+      <p>Диагностика, установка и обслуживание — три отдельные услуги. Можно остановиться после первой и ничего больше не заказывать. Цены указаны для Сочи и Большого Сочи: Адлер, Хоста, Красная Поляна и Сириус — без доплаты за выезд.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price rv">
+        <div class="tag">Шаг 1</div>
+        <h3>Диагностика</h3>
+        <div class="amount">2 900 ₽</div>
+        <div class="note">за объект, выезд в течение 1–2 дней</div>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Замеры влажности и тепловизор</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Проверка вентиляции и участка</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Отчёт 8–12 страниц с фото</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>2–3 варианта решения с ценой</li>
+        </ul>
+        <a class="btn btn-dark" href="#order">Записаться</a>
+      </div>
+      <div class="price featured rv">
+        <div class="tag">Шаг 2 · квартира или дом</div>
+        <h3>«Комфорт»</h3>
+        <div class="amount">от 39 000 ₽</div>
+        <div class="note">монтаж 1 день, гарантия 2 года</div>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>3 зоны защиты от протечек</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Датчики влажности в 2 помещениях</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Рекомендации по притоку и вытяжке</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Настройка приложения и обучение</li>
+        </ul>
+        <a class="btn btn-primary" href="#order">Рассчитать</a>
+      </div>
+      <div class="price rv">
+        <div class="tag">Шаг 2 · участок</div>
+        <h3>«Участок под ключ»</h3>
+        <div class="amount">от 190 000 ₽</div>
+        <div class="note">проект + монтаж 2–3 дня, гарантия 3 года</div>
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Дренаж и поверхностный водоотвод</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Автополив 3–6 зон с погодным датчиком</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Сбор дождевой воды с крыши</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Первое обслуживание сезона включено</li>
+        </ul>
+        <a class="btn btn-dark" href="#order">Обсудить проект</a>
+      </div>
+    </div>
+    <div class="service-note rv">
+      <div>
+        <b>Обслуживание — 2 200 ₽ за квартал</b>
+        <div style="color:var(--muted);margin-top:4px">Плановый осмотр, промывка фильтров, проверка датчиков и клапанов, сезонная регулировка полива. Отдельный договор, можно отказаться в любой момент.</div>
+      </div>
+      <a class="btn btn-dark" href="#order" style="flex:none">Подключить</a>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="pad" style="background:var(--sand)">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Что уже сделано</div>
+      <h2>Три объекта, три разных причины</h2>
+      <p>Цифры — из отчётов по замерам до и после работ.</p>
+    </div>
+    <div class="cases">
+      <div class="case rv">
+        <div class="where">Адлер · дом 128 м²</div>
+        <div class="num">71% → 52%</div>
+        <div class="was" style="margin-top:10px">Было: конденсат на окнах каждое утро, плесень в углу за шкафом. Влажность в спальне 71% при норме до 60%.</div>
+        <div class="did">Сделали: замеры в 6 точках, тепловизор показал холодный узел откоса. Смонтировали датчик влажности, дали схему приточных клапанов, заменили вытяжной вентилятор в санузле.</div>
+        <div class="now"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Конденсата нет вторую зиму, плесень не вернулась</div>
+      </div>
+      <div class="case rv">
+        <div class="where">Сочи · участок 6 соток</div>
+        <div class="num">20 минут</div>
+        <div class="was" style="margin-top:10px">Было: после ливня двор стоял в воде двое суток, вода подходила к отмостке и в подвал.</div>
+        <div class="did">Сделали: пересчитали уклоны, смонтировали 14 м поверхностного лотка, 4 точечных дождеприёмника и отвод от водостока с крыши.</div>
+        <div class="now"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Вода уходит за 20 минут, подвал сухой после трёх ливней подряд</div>
+      </div>
+      <div class="case rv">
+        <div class="where">Дача · 2 сотки газона</div>
+        <div class="num">−35% воды</div>
+        <div class="was" style="margin-top:10px">Было: ручной полив дважды в день, пересыхающие края газона, счёт за воду рос каждый месяц.</div>
+        <div class="did">Сделали: 3 зоны капельного и веерного полива, контроллер с датчиком дождя и влажности почвы, обучение хозяев.</div>
+        <div class="now"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 12l5 5L20 6"/></svg>Уезжают на месяц — газон ровный, расход воды ниже на 35%</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="pad" id="how">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="eyebrow">Как работаем</div>
+      <h2>От звонка до обслуживания — четыре шага</h2>
+    </div>
+    <div class="steps">
+      <div class="step rv"><div class="n">01</div><h4>Заявка</h4><p>Звонок или форма. Задаём 5 вопросов по объекту и назначаем время выезда.</p><div class="when">15 минут</div></div>
+      <div class="step rv"><div class="n">02</div><h4>Диагностика</h4><p>Инженер приезжает с приборами, делает замеры и в тот же день отдаёт отчёт.</p><div class="when">1 день</div></div>
+      <div class="step rv"><div class="n">03</div><h4>Смета и проект</h4><p>Фиксированная смета без «уточним на объекте», схема монтажа, сроки.</p><div class="when">1–2 дня</div></div>
+      <div class="step rv"><div class="n">04</div><h4>Монтаж и сервис</h4><p>Работы 1–3 дня, уборка после, инструктаж. Дальше — обслуживание по договору.</p><div class="when">1–3 дня</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="pad" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv" style="margin-bottom:32px">
+      <div class="eyebrow">Отзывы</div>
+      <h2 style="font-size:34px">Что говорят после первого сезона</h2>
+    </div>
+    <div class="rev-grid">
+      <div class="rev rv">
+        <p>«Больше всего понравилось, что не начали сразу продавать дренаж. Сначала два часа замеров, потом отчёт, где половина наших подозрений не подтвердилась. В итоге поставили датчики протечек и переделали откос — обошлось дешевле, чем мы готовы были потратить.»</p>
+        <div class="who"><span class="ava">ОК</span><span>Ольга, квартира 84 м², Хостинский район</span></div>
+      </div>
+      <div class="rev rv">
+        <p>«Участок заливало каждую осень, соседи советовали поднять грунт. Приехали, показали по нивелиру, что уклон идёт к дому. Сделали лотки и дождеприёмники. Первый же ливень проверил — сухо. Смета совпала с той, что дали на второй день.»</p>
+        <div class="who"><span class="ava">ДМ</span><span>Дмитрий, дом с участком, Адлер</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="pad" id="faq" style="background:var(--sand)">
+  <div class="wrap">
+    <div class="sec-head rv" style="margin-bottom:34px">
+      <div class="eyebrow">Вопросы</div>
+      <h2>Отвечаем до звонка</h2>
+    </div>
+    <div class="faq">
+      <details class="rv"><summary>Что, если после диагностики ничего страшного не найдут?</summary><p>Так бывает примерно в каждом пятом случае — и это нормальный результат. Вы платите только за выезд и отчёт, где будет написано, что с домом всё в порядке и какие замеры это подтверждают. Отчётом можно пользоваться дальше, например при споре с застройщиком или управляющей компанией.</p></details>
+      <details class="rv"><summary>Можно заказать только одну услугу, например автополив?</summary><p>Да. Диагностика в этом случае тоже нужна — без замеров давления и уклона проект полива будет угадыванием. Но если вы уже знаете задачу, мы делаем сокращённую проверку под неё.</p></details>
+      <details class="rv"><summary>Работаете зимой?</summary><p>Диагностика — круглый год. Монтаж дренажа и полива в Сочи возможен почти весь год, кроме дней с заморозками и затяжными дождями. Даты согласуем заранее, перенос по погоде — без доплаты.</p></details>
+      <details class="rv"><summary>Сколько стоит обслуживание и обязательно ли оно?</summary><p>2 200 ₽ за квартал по отдельному договору. Не обязательно: гарантия действует и без него. Обслуживание нужно тем, у кого автополив и дренаж — там есть фильтры и клапаны, которые надо промывать и проверять перед сезоном.</p></details>
+      <details class="rv"><summary>Смета может вырасти в процессе работ?</summary><p>Нет. Смета фиксируется после диагностики и подписывается до начала монтажа. Изменения возможны только если вы сами добавляете работы — тогда оформляем дополнение и согласуем цену заранее.</p></details>
+      <details class="rv"><summary>Выезжаете за пределы Сочи?</summary><p>Сочи, Адлер, Хоста, Красная Поляна, Сириус — без доплаты. Дальше по краю — по договорённости, дорога считается отдельно.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER -->
+<section style="padding:0 0 96px">
+  <div class="wrap">
+    <div class="form-sec rv" id="order">
+      <div>
+        <div class="eyebrow" style="color:#5FE3D0">Заявка</div>
+        <h2 style="margin-top:14px">Приедем, измерим, покажем цифры</h2>
+        <p class="sub">Перезвоним в течение 15 минут в рабочее время (пн–сб, 9:00–20:00), зададим пять вопросов и предложим два свободных окна на выезд.</p>
+        <div class="contact-lines">
+          <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.4 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg><a href="tel:+79891690711">+7 989 169-07-11</a></div>
+          <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg><a href="mailto:pochta@mail.ru">pochta@mail.ru</a></div>
+          <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span>Сочи, ул. Трунова, 6, корп. 1</span></div>
+        </div>
+      </div>
+      <div>
+        <form id="lead" novalidate>
+          <div class="field"><label for="f-name">Как вас зовут</label><input id="f-name" name="name" placeholder="Имя" autocomplete="name"></div>
+          <div class="field"><label for="f-phone">Телефон</label><input id="f-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel"></div>
+          <div class="field"><label for="f-obj">Объект</label>
+            <select id="f-obj" name="object">
+              <option>Квартира</option><option>Частный дом</option><option>Дача</option><option>Несколько объектов</option>
+            </select>
+          </div>
+          <div class="field"><label for="f-msg">Что беспокоит</label><textarea id="f-msg" name="message" rows="3" placeholder="Например: после дождя стоит вода у крыльца, в спальне пахнет сыростью"></textarea></div>
+          <label class="consent"><input type="checkbox" id="f-consent"><span>Согласен на обработку персональных данных в соответствии с Федеральным законом № 152-ФЗ. Данные используются только для связи по заявке.</span></label>
+          <div class="err" id="err"></div>
+          <button class="btn btn-primary" type="submit">Записаться на диагностику</button>
+          <p style="font-size:11.5px;color:rgba(255,255,255,.4);text-align:center">Диагностика 2 900 ₽ · оплата после выезда · чек и договор</p>
+        </form>
+        <div class="ok-msg" id="ok">
+          <b>Заявка принята</b>
+          <p>Перезвоним в течение 15 минут в рабочее время. Если удобнее — позвоните сами: <a href="tel:+79891690711" style="color:#5FE3D0;font-weight:700">+7 989 169-07-11</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <b>АкваДом — центр климатического комфорта</b>
+        <div style="max-width:330px;line-height:1.6">Направление ООО «АкваТерра Сочи». Десять лет проектируем системы сбора дождевой воды, водоотведения и полива для городской среды — теперь и для частных домов.</div>
+      </div>
+      <div>
+        <b>Услуги</b>
+        <ul>
+          <li><a href="#diag">Диагностика влажности</a></li>
+          <li><a href="#solutions">Датчики протечек</a></li>
+          <li><a href="#solutions">Автоматический полив</a></li>
+          <li><a href="#solutions">Дренаж и водоотведение</a></li>
+          <li><a href="#solutions">Сбор дождевой воды</a></li>
+        </ul>
+      </div>
+      <div>
+        <b>Контакты</b>
+        <ul>
+          <li><a href="tel:+79891690711">+7 989 169-07-11</a></li>
+          <li><a href="mailto:pochta@mail.ru">pochta@mail.ru</a></li>
+          <li>Сочи, ул. Трунова, 6, корп. 1</li>
+          <li>пн–сб, 9:00–20:00</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 ООО «АкваТерра Сочи». Все права защищены.</span>
+      <span>Демонстрационный проект · учебная работа по дисциплине «Деловые коммуникации в профессиональной деятельности»</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // header shadow
+  var hdr=document.getElementById('hdr');
+  addEventListener('scroll',function(){
+    hdr.style.background = scrollY>20 ? 'rgba(8,33,31,.96)' : 'rgba(8,33,31,.86)';
+  },{passive:true});
+
+  // reveal
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(function(el,i){ el.style.transitionDelay=(i%6)*40+'ms'; io.observe(el); });
+
+  // passport bars
+  setTimeout(function(){
+    document.querySelectorAll('.bar .fill').forEach(function(f){ f.style.width=f.dataset.w+'%'; });
+  },350);
+
+  // calculator
+  var TOTAL=document.getElementById('calc-total');
+  function money(n){ return n.toLocaleString('ru-RU').replace(/,/g,' ')+' ₽'; }
+  function calc(){
+    var mult=+document.querySelector('input[name=obj]:checked').value;
+    var lo=0,hi=0,n=0;
+    document.querySelectorAll('.opts input[type=checkbox]').forEach(function(c){
+      if(c.checked){ lo+=+c.dataset.min; hi+=+c.dataset.max; n++; }
+    });
+    if(!n){ TOTAL.textContent='выберите услуги'; return; }
+    var a=Math.round(lo*mult/1000)*1000, b=Math.round(hi*mult/1000)*1000;
+    TOTAL.textContent=money(a).replace(' ₽','')+' – '+money(b);
+  }
+  document.querySelectorAll('.calc input').forEach(function(i){ i.addEventListener('change',calc); });
+  calc();
+
+  // form
+  var f=document.getElementById('lead'), err=document.getElementById('err');
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=f.name.value.trim(), phone=f.phone.value.replace(/\D/g,''), ok=f.querySelector('#f-consent').checked;
+    if(name.length<2){ err.textContent='Укажите имя, чтобы знать, как к вам обращаться.'; return; }
+    if(phone.length<11){ err.textContent='Проверьте номер телефона — нужно 11 цифр.'; return; }
+    if(!ok){ err.textContent='Без согласия на обработку данных мы не можем принять заявку.'; return; }
+    err.textContent='';
+    f.style.display='none';
+    document.getElementById('ok').style.display='block';
+  });
+  // phone mask
+  var ph=document.getElementById('f-phone');
+  ph.addEventListener('input',function(){
+    if(!ph.value.trim()){ ph.value=''; return; }
+    var d=ph.value.replace(/\D/g,'').slice(0,11);
+    if(d.startsWith('8')) d='7'+d.slice(1);
+    if(!d.startsWith('7')) d='7'+d;
+    var out='+7';
+    if(d.length>1) out+=' ('+d.slice(1,4);
+    if(d.length>=5) out+=') '+d.slice(4,7);
+    if(d.length>=8) out+='-'+d.slice(7,9);
+    if(d.length>=10) out+='-'+d.slice(9,11);
+    ph.value=out;
+  });
+})();
+</script>
+</body>
+</html>
