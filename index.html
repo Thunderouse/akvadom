@@ -72,36 +72,36 @@ a{color:inherit;text-decoration:none}
 /* ---------- шапка ---------- */
 header{
   position:sticky;top:0;z-index:60;
-  background:#103028;
+  background:linear-gradient(180deg,#0d2a22 0%,#103028 100%);
   border-bottom:1px solid rgba(212,175,55,.3);
   box-shadow:0 6px 24px rgba(0,0,0,.32);
   color:#fff;
 }
-.header-art{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.55}
+.header-art{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.98}
 .header-art svg{width:100%;height:100%;display:block}
 .nav{
   position:relative;z-index:2;
-  display:flex;align-items:center;justify-content:space-between;height:90px;gap:24px;
+  display:flex;align-items:center;justify-content:space-between;height:90px;gap:18px;
   max-width:var(--wrap);margin:0 auto;padding:0 36px;
 }
 .logo{display:flex;align-items:center;gap:14px;flex:none}
-.brand-logo{height:64px;width:auto;max-width:260px;object-fit:contain;
-  filter:drop-shadow(0 0 1px #fff) drop-shadow(0 0 5px rgba(255,255,255,.5)) drop-shadow(0 2px 6px rgba(0,0,0,.45));
+.brand-logo{height:74px;width:auto;max-width:200px;flex:none;object-fit:contain;
+  filter:drop-shadow(0 0 2px rgba(255,255,255,.95)) drop-shadow(0 0 10px rgba(255,255,255,.45)) drop-shadow(0 2px 8px rgba(0,0,0,.5));
   transition:transform .2s ease}
 .logo:hover .brand-logo{transform:scale(1.02)}
 .brand-sep{width:1px;height:40px;background:rgba(212,175,55,.55);flex:none}
 .logo-t{font-size:19px;font-weight:800;letter-spacing:-.01em;line-height:1.15;display:block;white-space:nowrap}
 .logo-s{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);
   font-weight:700;display:block;white-space:nowrap;margin-top:3px}
-nav.links{display:flex;gap:8px;font-size:14px;font-weight:600}
+nav.links{display:flex;gap:6px;font-size:13.5px;font-weight:600}
 nav.links a{
-  color:#f4f7f6;white-space:nowrap;padding:9px 16px;border-radius:var(--r-sm);
+  color:#f4f7f6;white-space:nowrap;padding:8px 13px;border-radius:var(--r-sm);
   background:rgba(15,45,37,.78);border:1px solid rgba(255,255,255,.16);transition:all .18s ease;
 }
 nav.links a:hover{background:var(--accent);border-color:rgba(255,255,255,.38)}
 .nav-right{display:flex;align-items:center;gap:14px;flex:none}
 .nav-phone{font-weight:700;font-size:14.5px;white-space:nowrap;letter-spacing:-.01em}
-.nav .btn{padding:11px 20px;font-size:13.5px}
+.nav .btn{padding:11px 16px;font-size:13px}
 
 /* ---------- первый экран ---------- */
 .hero{
@@ -250,7 +250,7 @@ section.pad{padding:84px 0;border-bottom:1px solid rgba(255,255,255,.1)}
 /* решения */
 #solutions{
   background:
-    linear-gradient(180deg,rgba(18,28,24,.94) 0%,rgba(24,22,18,.9) 50%,rgba(14,26,22,.96) 100%),
+    linear-gradient(180deg,rgba(18,28,24,.9) 0%,rgba(24,22,18,.85) 50%,rgba(14,26,22,.92) 100%),
     url("assets/soil.jpg") center/cover no-repeat;
 }
 .sol-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
@@ -421,8 +421,10 @@ footer{background:var(--bg-deep);color:var(--muted-2);padding:52px 0 30px;font-s
   color:#708a82;flex-wrap:wrap}
 
 /* ---------- адаптив ---------- */
-@media (max-width:1180px){
+@media (max-width:1340px){
   nav.links{display:none}
+}
+@media (max-width:1180px){
   .hero-grid,.diag,.calc,.form-sec{grid-template-columns:1fr;gap:38px}
   .sym-grid,.sol-grid,.price-grid,.cases,.steps,.rev-grid{grid-template-columns:1fr 1fr}
   .sym-card.wide{grid-column:span 2}
@@ -447,9 +449,12 @@ footer{background:var(--bg-deep);color:var(--muted-2);padding:52px 0 30px;font-s
   .brand-sep{height:30px}
 }
 @media (max-width:560px){
-  .nav .btn{padding:9px 12px;font-size:11.5px}
-  .logo{gap:9px}
-  .brand-logo{height:40px;max-width:150px}
+  .nav{padding:0 14px;gap:10px;height:70px}
+  .nav .btn{padding:9px 11px;font-size:11px}
+  .logo{gap:8px}
+  .brand-logo{height:34px;max-width:88px}
+  .logo-t{font-size:14.5px}
+  .logo-s{display:none}
   .brand-sep{display:none}
   .bar{width:min(160px,42vw)}
   .sol,.price,.case,.rev{padding:22px 18px}
@@ -469,10 +474,10 @@ footer{background:var(--bg-deep);color:var(--muted-2);padding:52px 0 30px;font-s
           <stop offset="0%" stop-color="#0d2a22"/><stop offset="100%" stop-color="#103028"/>
         </linearGradient>
         <linearGradient id="g-back" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#1c4a3c"/><stop offset="100%" stop-color="#123a30"/>
+          <stop offset="0%" stop-color="#2a6d58"/><stop offset="100%" stop-color="#174a3c"/>
         </linearGradient>
         <linearGradient id="g-front" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#164236"/><stop offset="100%" stop-color="#0f332a"/>
+          <stop offset="0%" stop-color="#1d5a49"/><stop offset="100%" stop-color="#123c31"/>
         </linearGradient>
       </defs>
       <rect width="1440" height="90" fill="url(#g-sky)"/>
@@ -483,7 +488,7 @@ footer{background:var(--bg-deep);color:var(--muted-2);padding:52px 0 30px;font-s
       <polygon points="900,70 1050,24 1200,70" fill="url(#g-back)" opacity=".62"/>
       <polygon points="1140,72 1295,20 1440,72" fill="url(#g-back)" opacity=".7"/>
       <path d="M0,68 Q180,40 360,58 T740,48 T1120,56 T1440,46 L1440,90 L0,90 Z" fill="url(#g-front)" opacity=".95"/>
-      <path d="M0,82 C240,74 480,88 720,80 C960,72 1200,86 1440,78 L1440,90 L0,90 Z" fill="#0c2b23" opacity=".85"/>
+      <path d="M0,82 C240,74 480,88 720,80 C960,72 1200,86 1440,78 L1440,90 L0,90 Z" fill="#0e332a" opacity=".9"/>
     </svg>
   </div>
   <div class="wrap nav">
